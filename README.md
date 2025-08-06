@@ -1,4 +1,4 @@
-![gomake logo](images/logo.png)
+<img src="images/logo.png" width="200" alt="gomake logo">
 
 **gomake** is a powerful CLI tool for generating Go project structures with various architectural patterns. It helps developers quickly bootstrap Go applications with clean, well-organized code following industry best practices.
 
