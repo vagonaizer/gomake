@@ -2,8 +2,6 @@
 
 **gomake** is a powerful CLI tool for generating Go project structures with various architectural patterns. It helps developers quickly bootstrap Go applications with clean, well-organized code following industry best practices.
 
-## Key Features
-
 - **Multiple Architecture Patterns**: Support for Hexagonal, Clean, MVC, and Basic project structures
 - **Interactive Project Setup**: Step-by-step wizard for easy project configuration
 - **Docker Integration**: Automatic generation of Dockerfile and docker-compose.yml
