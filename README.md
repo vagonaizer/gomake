@@ -2,8 +2,6 @@
 
 **gomake** is a powerful CLI tool for generating Go project structures with various architectural patterns. It helps developers quickly bootstrap Go applications with clean, well-organized code following industry best practices.
 
-## Key Features
-
 - **Multiple Architecture Patterns**: Support for Hexagonal, Clean, MVC, and Basic project structures
 - **Interactive Project Setup**: Step-by-step wizard for easy project configuration
 - **Docker Integration**: Automatic generation of Dockerfile and docker-compose.yml
@@ -19,12 +17,12 @@
 
 Clean separation between business logic and external dependencies through ports and adapters pattern.
 
-\`\`\`bash
+```bash
 gomake project myapp --arch hexagonal
-\`\`\`
+```
 
 **Structure:**
-\`\`\`
+```
 myapp/
 ├── cmd/myapp/main.go
 ├── internal/
@@ -37,7 +35,7 @@ myapp/
 │       └── repositories/    # Data access
 ├── pkg/                     # Public packages
 └── configs/                 # Configuration
-\`\`\`
+```
 
 **Benefits:**
 - High testability
@@ -49,12 +47,12 @@ myapp/
 
 Enforces dependency inversion with clear layers: entities, use cases, interfaces, and infrastructure.
 
-\`\`\`bash
+```bash
 gomake project myapp --arch clean
-\`\`\`
+```
 
 **Structure:**
-\`\`\`
+```
 myapp/
 ├── cmd/myapp/main.go
 ├── internal/
@@ -66,7 +64,7 @@ myapp/
 │   └── infrastructure/      # External dependencies
 ├── pkg/                     # Public packages
 └── configs/                 # Configuration
-\`\`\`
+```
 
 **Benefits:**
 - Independent of frameworks
@@ -78,12 +76,12 @@ myapp/
 
 Traditional Model-View-Controller pattern with clear separation of concerns.
 
-\`\`\`bash
+```bash
 gomake project myapp --arch mvc
-\`\`\`
+```
 
 **Structure:**
-\`\`\`
+```
 myapp/
 ├── cmd/myapp/main.go
 ├── internal/
@@ -92,7 +90,7 @@ myapp/
 │   └── controllers/         # Controllers
 ├── pkg/                     # Public packages
 └── configs/                 # Configuration
-\`\`\`
+```
 
 **Benefits:**
 - Simple and familiar structure
@@ -104,12 +102,12 @@ myapp/
 
 Simple, lightweight structure perfect for small to medium projects and prototypes.
 
-\`\`\`bash
+```bash
 gomake project myapp --arch basic
-\`\`\`
+```
 
 **Structure:**
-\`\`\`
+```
 myapp/
 ├── cmd/myapp/main.go
 ├── internal/                # Private application code
@@ -117,7 +115,7 @@ myapp/
 ├── api/                     # API documentation
 ├── configs/                 # Configuration
 └── docs/                    # Documentation
-\`\`\`
+```
 
 **Benefits:**
 - Simple and lightweight
@@ -129,15 +127,15 @@ myapp/
 
 ### Quick Install (Recommended)
 
-\`\`\`bash
+```bash
 curl -sSL https://raw.githubusercontent.com/gomake/gomake/main/scripts/install.sh | bash
-\`\`\`
+```
 
 ### Manual Installation
 
 #### From Source
 
-\`\`\`bash
+```bash
 # Clone the repository
 git clone https://github.com/gomake/gomake.git
 cd gomake
@@ -148,20 +146,20 @@ sudo cp bin/gomake /usr/local/bin/
 
 # Or install directly with Go
 go install github.com/gomake/gomake/cmd/gomake@latest
-\`\`\`
+```
 
 ### Verify Installation
 
-\`\`\`bash
+```bash
 gomake --help
 gomake version
-\`\`\`
+```
 
 ## Quick Start
 
 ### Basic Usage
 
-\`\`\`bash
+```bash
 # Create a simple project
 gomake project myapp
 
@@ -173,11 +171,11 @@ gomake project myapp --interactive
 
 # Full-featured project
 gomake project myapp --arch clean --with-docker --with-git --license MIT --yes
-\`\`\`
+```
 
 ### Example: Microservice with Hexagonal Architecture
 
-\`\`\`bash
+```bash
 # Generate the project
 gomake project user-service --arch hexagonal --with-docker --with-git --yes
 
@@ -188,15 +186,15 @@ make run
 
 # Test the API
 curl http://localhost:8080/health
-\`\`\`
+```
 
 ## 🎛️ Command Reference
 
 ### Main Command
 
-\`\`\`bash
+```bash
 gomake project <name> [flags]
-\`\`\`
+```
 
 ### Flags
 
@@ -211,7 +209,7 @@ gomake project <name> [flags]
 
 ### Examples
 
-\`\`\`bash
+```bash
 # Interactive mode
 gomake project myapp --interactive
 
@@ -220,7 +218,7 @@ gomake project myapp --arch hexagonal --with-docker
 
 # Clean architecture with all features
 gomake project myapp --arch clean --with-docker --with-git --license Apache --yes
-\`\`\`
+```
 
 ## Generated Project Structure
 
@@ -246,19 +244,19 @@ Each architecture generates appropriate directory structure and boilerplate code
 
 ### Building from Source
 
-\`\`\`bash
+```bash
 git clone https://github.com/gomake/gomake.git
 cd gomake
 make setup
 make build
-\`\`\`
+```
 
 ### Running Tests
 
-\`\`\`bash
+```bash
 make test
 make test-coverage
-\`\`\`
+```
 
 ### Contributing
 
