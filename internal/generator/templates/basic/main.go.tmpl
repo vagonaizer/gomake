@@ -1,0 +1,46 @@
+package main
+
+import (
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"{{.ModuleName}}/internal/app"
+	"{{.ModuleName}}/configs"
+	"{{.ModuleName}}/pkg/initializers"
+	"{{.ModuleName}}/pkg/logger"
+)
+
+func main() {
+	// Load environment variables
+	if err := initializers.LoadEnv(); err != nil {
+		log.Fatal("Failed to load environment:", err)
+	}
+
+	// Initialize logger
+	appLogger := logger.New(logger.INFO)
+	appLogger.Info("Starting {{.ProjectName}} application")
+
+	// Load configuration
+	cfg := configs.Load()
+
+	// Initialize and start application
+	application := app.New(cfg, appLogger)
+	
+	if err := application.Start(); err != nil {
+		appLogger.Fatal("Failed to start application: %v", err)
+	}
+
+	appLogger.Info("Application started on port %s", cfg.GetPort())
+
+	// Wait for interrupt signal to gracefully shutdown
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+
+	appLogger.Info("Shutting down application...")
+	if err := application.Stop(); err != nil {
+		appLogger.Error("Error during shutdown: %v", err)
+	}
+}

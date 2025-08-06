@@ -1,0 +1,56 @@
+package main
+
+import (
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+
+	"{{.ModuleName}}/app"
+	"{{.ModuleName}}/configs"
+	"{{.ModuleName}}/pkg/initializers"
+	"{{.ModuleName}}/pkg/logger"
+	"{{.ModuleName}}/routes"
+)
+
+func main() {
+	// Load environment variables
+	if err := initializers.LoadEnv(); err != nil {
+		log.Fatal("Failed to load environment:", err)
+	}
+
+	// Initialize logger
+	appLogger := logger.New(logger.INFO)
+	appLogger.Info("Starting {{.ProjectName}} MVC application")
+
+	// Load configuration
+	cfg := configs.Load()
+
+	// Initialize application
+	application := app.New(cfg, appLogger)
+
+	// Setup routes
+	router := routes.Setup(application)
+
+	// Start server
+	server := &http.Server{
+		Addr:    ":" + cfg.GetPort(),
+		Handler: router,
+	}
+
+	go func() {
+		appLogger.Info("Server starting on port %s", cfg.GetPort())
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			appLogger.Fatal("Failed to start server: %v", err)
+		}
+	}()
+
+	// Wait for interrupt signal to gracefully shutdown
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+
+	appLogger.Info("Shutting down server...")
+	// TODO: Add graceful shutdown logic
+}

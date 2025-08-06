@@ -1,0 +1,64 @@
+package utils
+
+import (
+	"crypto/rand"
+	"encoding/hex"
+	"encoding/json"
+	"fmt"
+	"regexp"
+	"strings"
+	"time"
+)
+
+// GenerateID generates a random hex ID
+func GenerateID(length int) string {
+	bytes := make([]byte, length/2)
+	rand.Read(bytes)
+	return hex.EncodeToString(bytes)
+}
+
+// ValidateEmail validates email format
+func ValidateEmail(email string) bool {
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$`)
+	return emailRegex.MatchString(email)
+}
+
+// ToJSON converts interface to JSON string
+func ToJSON(v interface{}) string {
+	bytes, err := json.Marshal(v)
+	if err != nil {
+		return "{}"
+	}
+	return string(bytes)
+}
+
+// FromJSON parses JSON string to interface
+func FromJSON(jsonStr string, v interface{}) error {
+	return json.Unmarshal([]byte(jsonStr), v)
+}
+
+// StringInSlice checks if string exists in slice
+func StringInSlice(str string, slice []string) bool {
+	for _, s := range slice {
+		if s == str {
+			return true
+		}
+	}
+	return false
+}
+
+// TrimSpaces removes extra spaces from string
+func TrimSpaces(str string) string {
+	return strings.TrimSpace(regexp.MustCompile(`\s+`).ReplaceAllString(str, " "))
+}
+
+// FormatDuration formats duration to human readable string
+func FormatDuration(d time.Duration) string {
+	if d < time.Minute {
+		return fmt.Sprintf("%.1fs", d.Seconds())
+	}
+	if d < time.Hour {
+		return fmt.Sprintf("%.1fm", d.Minutes())
+	}
+	return fmt.Sprintf("%.1fh", d.Hours())
+}

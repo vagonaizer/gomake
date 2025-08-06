@@ -1,0 +1,60 @@
+package cache
+
+import (
+	"context"
+	"time"
+)
+
+type Cache interface {
+	Get(ctx context.Context, key string) (string, error)
+	Set(ctx context.Context, key string, value string, expiration time.Duration) error
+	Delete(ctx context.Context, key string) error
+	Exists(ctx context.Context, key string) (bool, error)
+}
+
+type InMemoryCache struct {
+	data map[string]cacheItem
+}
+
+type cacheItem struct {
+	value      string
+	expiration time.Time
+}
+
+func NewInMemoryCache() *InMemoryCache {
+	return &InMemoryCache{
+		data: make(map[string]cacheItem),
+	}
+}
+
+func (c *InMemoryCache) Get(ctx context.Context, key string) (string, error) {
+	item, exists := c.data[key]
+	if !exists {
+		return "", nil
+	}
+
+	if time.Now().After(item.expiration) {
+		delete(c.data, key)
+		return "", nil
+	}
+
+	return item.value, nil
+}
+
+func (c *InMemoryCache) Set(ctx context.Context, key string, value string, expiration time.Duration) error {
+	c.data[key] = cacheItem{
+		value:      value,
+		expiration: time.Now().Add(expiration),
+	}
+	return nil
+}
+
+func (c *InMemoryCache) Delete(ctx context.Context, key string) error {
+	delete(c.data, key)
+	return nil
+}
+
+func (c *InMemoryCache) Exists(ctx context.Context, key string) (bool, error) {
+	_, exists := c.data[key]
+	return exists, nil
+}
