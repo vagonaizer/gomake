@@ -11,6 +11,92 @@
 - **Template System**: Flexible template-based file generation
 - **Zero Dependencies**: Single binary with no external requirements
 
+## Installation
+
+### Quick Install (Recommended)
+
+```bash
+curl -sSL https://raw.githubusercontent.com/gomake/gomake/main/scripts/install.sh | bash
+```
+
+### Manual Installation
+
+#### From Source
+
+```bash
+# Clone the repository
+git clone https://github.com/gomake/gomake.git
+cd gomake
+
+# Build and install
+make build
+sudo cp bin/gomake /usr/local/bin/
+
+# Or install directly with Go
+go install github.com/gomake/gomake/cmd/gomake@latest
+```
+
+### Verify Installation
+
+```bash
+gomake --help
+gomake version
+```
+
+## Quick Start
+
+### Basic Usage
+
+```bash
+# Create a simple project
+gomake project myapp
+
+# Create with specific architecture
+gomake project myapp --arch hexagonal
+
+# Interactive mode
+gomake project myapp --interactive
+
+# Full-featured project
+gomake project myapp --arch clean --with-docker --with-git --license MIT --yes
+```
+
+### Example: Microservice with Hexagonal Architecture
+
+```bash
+# Generate the project
+gomake project user-service --arch hexagonal --with-docker --with-git --yes
+
+# Navigate and run
+cd user-service
+go mod tidy
+make run
+
+# Test the API
+curl http://localhost:8080/health
+```
+
+## 🎛️ Command Reference
+
+### Main Command
+
+```bash
+gomake project <name> [flags]
+```
+
+### Flags
+
+- `-a, --arch string`: Architecture type (hexagonal, clean, mvc, basic)
+- `-y, --yes`: Skip confirmation prompts
+- `-d, --dir string`: Target directory
+- `--with-docker`: Add Docker support
+- `--with-git`: Initialize git repository
+- `-i, --interactive`: Interactive setup wizard
+- `-l, --license string`: License type (MIT, Apache, BSD, GPL)
+- `-v, --verbose`: Verbose output
+
+
+
 ## Architecture Patterns
 
 ### 1. Hexagonal Architecture (Ports & Adapters)
@@ -123,89 +209,6 @@ myapp/
 - Flexible structure
 - Good for prototypes and small services
 
-## Installation
-
-### Quick Install (Recommended)
-
-```bash
-curl -sSL https://raw.githubusercontent.com/gomake/gomake/main/scripts/install.sh | bash
-```
-
-### Manual Installation
-
-#### From Source
-
-```bash
-# Clone the repository
-git clone https://github.com/gomake/gomake.git
-cd gomake
-
-# Build and install
-make build
-sudo cp bin/gomake /usr/local/bin/
-
-# Or install directly with Go
-go install github.com/gomake/gomake/cmd/gomake@latest
-```
-
-### Verify Installation
-
-```bash
-gomake --help
-gomake version
-```
-
-## Quick Start
-
-### Basic Usage
-
-```bash
-# Create a simple project
-gomake project myapp
-
-# Create with specific architecture
-gomake project myapp --arch hexagonal
-
-# Interactive mode
-gomake project myapp --interactive
-
-# Full-featured project
-gomake project myapp --arch clean --with-docker --with-git --license MIT --yes
-```
-
-### Example: Microservice with Hexagonal Architecture
-
-```bash
-# Generate the project
-gomake project user-service --arch hexagonal --with-docker --with-git --yes
-
-# Navigate and run
-cd user-service
-go mod tidy
-make run
-
-# Test the API
-curl http://localhost:8080/health
-```
-
-## 🎛️ Command Reference
-
-### Main Command
-
-```bash
-gomake project <name> [flags]
-```
-
-### Flags
-
-- `-a, --arch string`: Architecture type (hexagonal, clean, mvc, basic)
-- `-y, --yes`: Skip confirmation prompts
-- `-d, --dir string`: Target directory
-- `--with-docker`: Add Docker support
-- `--with-git`: Initialize git repository
-- `-i, --interactive`: Interactive setup wizard
-- `-l, --license string`: License type (MIT, Apache, BSD, GPL)
-- `-v, --verbose`: Verbose output
 
 ## License
 
