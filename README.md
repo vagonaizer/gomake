@@ -13,14 +13,6 @@
 
 ## Installation
 
-### Quick Install (Recommended)
-
-```bash
-curl -sSL https://raw.githubusercontent.com/gomake/gomake/main/scripts/install.sh | bash
-```
-
-### Manual Installation
-
 #### From Source
 
 ```bash
